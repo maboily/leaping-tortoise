@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "default": "./node_modules/.bin/nodemon main.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "network-protocol": "../shared/network-protocol"
+  }
+}

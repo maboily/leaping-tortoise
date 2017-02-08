@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "default": "./node_modules/.bin/nodemon -w ../ main.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
