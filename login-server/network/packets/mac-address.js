@@ -1,6 +1,7 @@
 const GamePacket = require('network-protocol/base-packet').GamePacket,
     PacketField = require('network-protocol/base-packet').PacketField,
-    BinaryTypes = require('network-protocol/binary-types');
+    BinaryTypes = require('network-protocol/binary-types'),
+    PacketTypes = require('network-protocol/packet-types');
 
 class MacAddressPacket extends GamePacket {
     /**
@@ -33,6 +34,8 @@ class MacAddressPacket extends GamePacket {
 
     constructor() {
         super();
+
+        this.type = PacketTypes.MacAddress;
 
         this._accountId = 0;
         this._macAddress = "";

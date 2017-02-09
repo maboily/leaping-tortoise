@@ -134,6 +134,8 @@ class BinaryUInt64 extends BinaryType {
 
 class BinaryFixedString extends BinaryType {
     constructor(length) {
+        super();
+
         this._length = length;
     }
 

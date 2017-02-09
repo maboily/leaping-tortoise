@@ -1,5 +1,4 @@
-const Buffer = require('buffer'),
-    BinaryTypes = require('./binary-types.js');
+const BinaryTypes = require('./binary-types.js');
 
 class PacketField {
     /**
@@ -123,6 +122,20 @@ class PacketAssembler {
         }
 
         return Buffer.concat(buffers);
+    }
+
+    /**
+     * @param {GamePacket} packet
+     */
+    correctLength(packet) {
+        let actualLength = 0;
+
+        for (const field of packet.constructor.BaseStructure) {
+            const fieldValue = packet[field.name];
+            actualLength += field.fieldType.getByteSize(fieldValue);
+        }
+
+        packet.length = actualLength;
     }
 }
 

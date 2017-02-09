@@ -1,6 +1,7 @@
 const GamePacket = require('network-protocol/base-packet').GamePacket,
     PacketField = require('network-protocol/base-packet').PacketField,
-    BinaryTypes = require('network-protocol/binary-types');
+    BinaryTypes = require('network-protocol/binary-types'),
+    PacketTypes = require('network-protocol/packet-types');
 
 class AuthResponsePacket extends GamePacket {
     /**
@@ -61,6 +62,8 @@ class AuthResponsePacket extends GamePacket {
 
     constructor() {
         super();
+
+        this.type = PacketTypes.AuthResponse;
 
         this._accountId = 0;
         this._unknownData = 0;

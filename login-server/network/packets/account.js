@@ -1,6 +1,7 @@
 const GamePacket = require('network-protocol/base-packet').GamePacket,
     PacketField = require('network-protocol/base-packet').PacketField,
-    BinaryTypes = require('network-protocol/binary-types');
+    BinaryTypes = require('network-protocol/binary-types'),
+    PacketTypes = require('network-protocol/packet-types');
 
 class AccountPacket extends GamePacket {
     /***
@@ -50,6 +51,8 @@ class AccountPacket extends GamePacket {
 
     constructor() {
         super();
+
+        this.type = PacketTypes.Account;
 
         this._account = "";
         this._encryptedPassword = "";
