@@ -3,6 +3,6 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "integrate": "./node_modules/.bin/nodemon -w ../ --exec './copy-dependencies.sh'"
+    "integrate": "./node_modules/.bin/nodemon --exec './copy-dependencies.sh'"
   }
 }

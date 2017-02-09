@@ -2,19 +2,51 @@ var buffer = require('buffer');
 var BinaryTypes = require('./binary-types.js');
 
 class PacketField {
+    /**
+     * @returns {BinaryType}
+     */
+    get fieldType() {
+        return this._fieldType;
+    }
+
+    /**
+     * @param {BinaryType} value
+     */
+    set fieldType(value) {
+        this._fieldType = value;
+    }
+
+    /**
+     * @returns {String}
+     */
+    get name() {
+        return this._name;
+    }
+
+    /**
+     * @param {String} value
+     */
+    set name(value) {
+        this._name = value;
+    }
     /***
      * @param {String} name
      * @param {BinaryType} fieldType
      */
     constructor(name, fieldType) {
-        this.name = name;
-        this.fieldType = fieldType;
+        this._name = name;
+        this._fieldType = fieldType;
     }
 }
 
 class BasePacket {
 
 }
+
+/**
+ * @type [PacketField]
+ */
+BasePacket.BaseStructure = [];
 
 class GamePacket {
     /**
@@ -55,22 +87,48 @@ class GamePacket {
  * @type [PacketField]
  */
 GamePacket.BaseStructure = [
-    new PacketField('length', BinaryTypes.BinaryUInt16),
-    new PacketField('type', BinaryTypes.BinaryUInt16)
+    new PacketField('length', new BinaryTypes.BinaryUInt16()),
+    new PacketField('type', new BinaryTypes.BinaryUInt16())
 ];
 
-var pkt = new GamePacket();
+class PacketAssembler {
+    /**
+     * @param {Buffer} buffer
+     */
+    deserializeFromBuffer(packetType, buffer) {
+        let assembledPacket = new packetType();
+        let offset = 0;
 
-var PacketDirection = {
-    serverToClient: 1,
-    clientToServer: 2,
-    both: 3
-};
+        for (const field of packetType.BaseStructure) {
+            const fieldValue = field.fieldType.readFromBuffer(buffer, offset);
+            offset += field.fieldType.getByteSize(fieldValue);
+            assembledPacket[field.name] = fieldValue;
+        }
+
+        return assembledPacket;
+    }
+
+    /**
+     * @param {BasePacket} packet
+     */
+    serializeToBuffer(packet) {
+        let buffers = [];
+
+        for (const field of packet.constructor.BaseStructure) {
+            const fieldValue = packet[field.name];
+            const tmpBuffer = new Buffer(field.fieldType.getByteSize(fieldValue));
+            field.fieldType.writeToBuffer(tmpBuffer, fieldValue, 0);
+            buffers.push(tmpBuffer);
+        }
+
+        return Buffer.concat(buffers);
+    }
+}
 
 module.exports = {
     GamePacket: GamePacket,
-    PacketDirection: PacketDirection,
-    PacketField: PacketField
+    PacketField: PacketField,
+    PacketAssembler: PacketAssembler
 };
 
 

@@ -15,6 +15,13 @@ class BinaryType {
     writeToBuffer(buffer, value, offset) {
         throw "writeToBuffer Not implemented.";
     }
+
+    /**
+     * @return {Number}
+     */
+    getByteSize(value) {
+        throw "getByteSize Not implemented.";
+    }
 }
 
 class BinaryByte extends BinaryType {
@@ -33,6 +40,14 @@ class BinaryByte extends BinaryType {
      */
     writeToBuffer(buffer, value, offset) {
         return buffer.writeUInt8(value, offset);
+    }
+
+    /**
+     * @param {Number} value
+     * @returns {Number}
+     */
+    getByteSize(value) {
+        return 1;
     }
 }
 
@@ -53,6 +68,14 @@ class BinaryUInt16 extends BinaryType {
     writeToBuffer(buffer, value, offset) {
         return buffer.writeUInt16LE(value, offset);
     }
+
+    /**
+     * @param {Number} value
+     * @returns {Number}
+     */
+    getByteSize(value) {
+        return 2;
+    }
 }
 
 class BinaryUInt32 extends BinaryType {
@@ -72,6 +95,14 @@ class BinaryUInt32 extends BinaryType {
     writeToBuffer(buffer, value, offset) {
         return buffer.writeUInt32LE(value, offset);
     }
+
+    /**
+     * @param {Number} value
+     * @returns {Number}
+     */
+    getByteSize(value) {
+        return 4;
+    }
 }
 
 class BinaryUInt64 extends BinaryType {
@@ -80,7 +111,7 @@ class BinaryUInt64 extends BinaryType {
      * @param {Number} offset
      */
     readFromBuffer(buffer, offset) {
-        return buffer.readUIntLE(offset, 4);
+        return buffer.readUIntLE(offset, 8);
     }
 
     /***
@@ -89,13 +120,21 @@ class BinaryUInt64 extends BinaryType {
      * @param {Number} offset
      */
     writeToBuffer(buffer, value, offset) {
-        return buffer.writeUIntLE(value, offset, 4);
+        return buffer.writeUIntLE(value, offset, 8);
+    }
+
+    /**
+     * @param {Number} value
+     * @returns {Number}
+     */
+    getByteSize(value) {
+        return 8;
     }
 }
 
 class BinaryFixedString extends BinaryType {
     constructor(length) {
-        this.length = length;
+        this._length = length;
     }
 
     /***
@@ -103,7 +142,7 @@ class BinaryFixedString extends BinaryType {
      * @param {Number} offset
      */
     readFromBuffer(buffer, offset) {
-        return buffer.toString("ASCII", offset, this.length);
+        return buffer.toString("ASCII", offset, this._length);
     }
 
     /***
@@ -112,7 +151,15 @@ class BinaryFixedString extends BinaryType {
      * @param {Number} offset
      */
     writeToBuffer(buffer, value, offset) {
-        return buffer.write(value, offset, this.length, "ASCII");
+        return buffer.write(value, offset, this._length, "ASCII");
+    }
+
+    /**
+     * @param {String} value
+     * @returns {Number}
+     */
+    getByteSize(value) {
+        return this._length;
     }
 }
 
