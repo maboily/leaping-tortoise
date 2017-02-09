@@ -1,6 +1,6 @@
-var GamePacket = require('network-protocol/base-packet').GamePacket;
-var PacketField = require('network-protocol/base-packet').PacketField;
-var BinaryTypes = require('network-protocol/binary-types');
+const GamePacket = require('network-protocol/base-packet').GamePacket,
+    PacketField = require('network-protocol/base-packet').PacketField,
+    BinaryTypes = require('network-protocol/binary-types');
 
 class ConnectPacket extends GamePacket {
     /**

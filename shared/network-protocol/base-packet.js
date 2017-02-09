@@ -1,5 +1,5 @@
-var buffer = require('buffer');
-var BinaryTypes = require('./binary-types.js');
+const Buffer = require('buffer'),
+    BinaryTypes = require('./binary-types.js');
 
 class PacketField {
     /**
@@ -29,6 +29,7 @@ class PacketField {
     set name(value) {
         this._name = value;
     }
+
     /***
      * @param {String} name
      * @param {BinaryType} fieldType
