@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "default": "./node_modules/.bin/nodemon -w ../ main.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "logging": "../shared/logging"
+  },
+  "dependencies": {
+    "amqplib": "^0.5.1",
+    "q": "^1.4.1"
+  }
+}

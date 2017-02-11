@@ -13,3 +13,4 @@ global.logger = new LoggerModule.Logger(
 );
 
 logger.writeInfo("Login server is starting...");
+

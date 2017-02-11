@@ -8,8 +8,18 @@ services:
     volumes:
       - ./login-server:/usr/src/app/login-server
       - ./shared:/usr/src/app/shared
-#    links:
-#      - rabbitmq
+    links:
+      - rabbitmq
+
+  supervisor:
+    image: node:slim
+    working_dir: /usr/src/app/supervisor
+    command: npm run default
+    volumes:
+      - ./supervisor:/usr/src/app/supervisor
+      - ./shared:/usr/src/app/shared
+    links:
+      - rabbitmq
 
 #  game-server:
 #    image: node:slim
@@ -31,5 +41,5 @@ services:
 #    links:
 #      - rabbitmq
 
-#  rabbitmq:
-#    image: rabbitmq:alpine
+  rabbitmq:
+    image: rabbitmq:alpine
