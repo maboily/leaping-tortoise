@@ -4,6 +4,7 @@
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
-    "network-protocol": "../shared/network-protocol"
+    "network-protocol": "../shared/network-protocol",
+    "logging": "../shared/logging"
   }
 }

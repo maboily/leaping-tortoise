@@ -8,28 +8,28 @@ services:
     volumes:
       - ./login-server:/usr/src/app/login-server
       - ./shared:/usr/src/app/shared
-    links:
-      - rabbitmq
+#    links:
+#      - rabbitmq
 
-  game-server:
-    image: node:slim
-    working_dir: /usr/src/app/game-server
-    command: npm run default
-    volumes:
-      - ./game-server:/usr/src/app/game-server
-      - ./shared:/usr/src/app/shared
-    links:
-      - rabbitmq
+#  game-server:
+#    image: node:slim
+#    working_dir: /usr/src/app/game-server
+#    command: npm run default
+#    volumes:
+#      - ./game-server:/usr/src/app/game-server
+#      - ./shared:/usr/src/app/shared
+#    links:
+#      - rabbitmq
+#
+#  game-node:
+#    image: node:slim
+#    working_dir: /usr/src/app/game-node
+#    command: npm run default
+#    volumes:
+#      - ./game-node:/usr/src/app/game-node
+#      - ./shared:/usr/src/app/shared
+#    links:
+#      - rabbitmq
 
-  game-node:
-    image: node:slim
-    working_dir: /usr/src/app/game-node
-    command: npm run default
-    volumes:
-      - ./game-node:/usr/src/app/game-node
-      - ./shared:/usr/src/app/shared
-    links:
-      - rabbitmq
-
-  rabbitmq:
-    image: rabbitmq:alpine
+#  rabbitmq:
+#    image: rabbitmq:alpine
