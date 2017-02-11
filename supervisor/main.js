@@ -1,6 +1,6 @@
-var LoggerModule = require('logging/logger');
-var AMQP = require('amqplib/callback_api');
-var Q = require('q');
+const
+    LoggerModule = require('logging/logger'),
+    AMQPConnectivity = require('amqp-protocol').Connectivity;
 
 // Setup local logger
 /** @type {Logger} */
@@ -17,87 +17,10 @@ global.logger = new LoggerModule.Logger(
 logger.writeInfo("Starting MQ Supervisor...");
 
 
-class AMQPConnection {
-    /**
-     *
-     * @returns {Connection|CallbackModel}
-     */
-    get underlayingConnection() {
-        return this._underlayingConnection;
-    }
-
-    constructor(amqpHost) {
-        /** @type {Connection|CallbackModel} */
-        this._underlayingConnection = null;
-    }
-
-    connect() {
-        const defer = Q.defer();
-
-        AMQP.connect('amqp://rabbitmq', (err, connection) => {
-            if (err) {
-                defer.reject(err);
-            } else {
-                this._underlayingConnection = connection;
-                defer.resolve();
-            }
-        });
-
-        return defer.promise;
-    }
-}
-
-
-class AMQPChannel {
-    /**
-     * @returns {Channel|CallbackModel}
-     */
-    get underlayingChannel() {
-        return this._underlayingChannel;
-    }
-
-    /**
-     * @returns {AMQPConnection}
-     */
-    get amqpConnection() {
-        return this._amqpConnection;
-    }
-
-    constructor(amqpConnection) {
-        /** @type {AMQPConnection} */
-        this._amqpConnection = amqpConnection;
-
-        /** @type {Channel|CallbackModel} */
-        this._underlayingChannel = null;
-    }
-
-    /**
-     * @returns {*|Promise}
-     */
-    initialize() {
-        const defer = Q.defer();
-
-        if (!this._amqpConnection.underlayingConnection) {
-            defer.reject("AMQP connection has not been established yet.");
-        }
-
-        this._amqpConnection.underlayingConnection.createChannel((err, channel) => {
-            if (err) {
-                defer.reject(err);
-            } else {
-                this._underlayingChannel = channel;
-                defer.resolve();
-            }
-        });
-
-
-        return defer.promise;
-    }
-}
-
 // AMQP Base Connection
-const baseAMQPConnection = new AMQPConnection('amqp://rabbitmq');
-const baseAMQPChannel = new AMQPChannel(baseAMQPConnection);
+const baseAMQPConnection = new AMQPConnectivity.AMQPConnection('amqp://rabbitmq');
+const baseAMQPChannel = new AMQPConnectivity.AMQPChannel(baseAMQPConnection);
+const baseAMQPQueue = new AMQPConnectivity.AMQPQueue('nodes-status', baseAMQPChannel);
 baseAMQPConnection.connect().
     then(() => {
         logger.writeVerbose("Connected to AMQP");
@@ -111,12 +34,5 @@ baseAMQPConnection.connect().
         logger.writeError("Failed to initialize AMQP");
         logger.writeError(error);
     });
-
-
-
-
-
-
-
 
 

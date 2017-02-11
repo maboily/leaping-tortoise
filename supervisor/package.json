@@ -3,11 +3,11 @@
     "default": "./node_modules/.bin/nodemon -w ../ main.js"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0",
-    "logging": "../shared/logging"
+    "nodemon": "^1.11.0"
   },
   "dependencies": {
-    "amqplib": "^0.5.1",
-    "q": "^1.4.1"
+    "logging": "../shared/logging",
+    "network-protocol": "../shared/network-protocol",
+    "amqp-protocol": "../shared/amqp-protocol"
   }
 }

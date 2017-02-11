@@ -1,9 +1,9 @@
-const GamePacket = require('network-protocol/base-packet').GamePacket,
+const GamePacket = require('network-protocol/base-packet').LengthTypedPacket,
     PacketField = require('network-protocol/base-packet').PacketField,
     BinaryTypes = require('network-protocol/binary-types'),
-    PacketTypes = require('network-protocol/packet-types');
+    PacketTypes = require('./login-packet-types');
 
-class AuthResponsePacket extends GamePacket {
+class AuthResponsePacket extends LengthTypedPacket {
     /**
      * @returns {Number}
      */

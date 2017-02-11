@@ -1,9 +1,9 @@
-const GamePacket = require('network-protocol/base-packet').GamePacket,
+const LengthTypedPacket = require('network-protocol/base-packet').LengthTypedPacket,
     PacketField = require('network-protocol/base-packet').PacketField,
     BinaryTypes = require('network-protocol/binary-types'),
-    PacketTypes = require('network-protocol/packet-types');
+    PacketTypes = require('./login-packet-types');
 
-class AccountPacket extends GamePacket {
+class AccountPacket extends LengthTypedPacket {
     /***
      * @returns {String}
      */
@@ -63,7 +63,7 @@ class AccountPacket extends GamePacket {
 /**
  * @type [PacketField]
  */
-AccountPacket.BaseStructure = [...GamePacket.BaseStructure, ...[
+AccountPacket.BaseStructure = [...LengthTypedPacket.BaseStructure, ...[
     new PacketField('account', new BinaryTypes.BinaryFixedString(16)),
     new PacketField('encryptedPassword', new BinaryTypes.BinaryFixedString(16)),
     new PacketField('server', new BinaryTypes.BinaryFixedString(16))

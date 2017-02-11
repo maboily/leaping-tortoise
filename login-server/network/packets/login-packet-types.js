@@ -1,4 +1,4 @@
-const PacketTypes = {
+module.exports = {
     // Auth
     Connect: 1052,
     AuthResponse: 1055,
@@ -6,5 +6,3 @@ const PacketTypes = {
     Account: 1086,
     MacAddress: 1100
 };
-
-module.exports = PacketTypes;
