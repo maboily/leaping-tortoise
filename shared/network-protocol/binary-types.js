@@ -1,3 +1,13 @@
+function pad(pad, str, padLeft) {
+    if (typeof str === 'undefined')
+        return pad;
+    if (padLeft) {
+        return (pad + str).slice(-pad.length);
+    } else {
+        return (str + pad).substring(0, pad.length);
+    }
+}
+
 class BinaryType {
     /***
      * @param {Buffer} buffer
@@ -19,7 +29,7 @@ class BinaryType {
     /**
      * @return {Number}
      */
-    getByteSize(value) {
+    getByteSize() {
         throw "getByteSize Not implemented.";
     }
 }
@@ -43,10 +53,9 @@ class BinaryByte extends BinaryType {
     }
 
     /**
-     * @param {Number} value
      * @returns {Number}
      */
-    getByteSize(value) {
+    getByteSize() {
         return 1;
     }
 }
@@ -70,10 +79,9 @@ class BinaryUInt16 extends BinaryType {
     }
 
     /**
-     * @param {Number} value
      * @returns {Number}
      */
-    getByteSize(value) {
+    getByteSize() {
         return 2;
     }
 }
@@ -97,10 +105,9 @@ class BinaryUInt32 extends BinaryType {
     }
 
     /**
-     * @param {Number} value
      * @returns {Number}
      */
-    getByteSize(value) {
+    getByteSize() {
         return 4;
     }
 }
@@ -124,15 +131,18 @@ class BinaryUInt64 extends BinaryType {
     }
 
     /**
-     * @param {Number} value
      * @returns {Number}
      */
-    getByteSize(value) {
+    getByteSize() {
         return 8;
     }
 }
 
 class BinaryFixedString extends BinaryType {
+    static trimTerminatingNullBytes(string) {
+        return string.replace(/[\u0000]+$/, '');
+    }
+
     constructor(length) {
         super();
 
@@ -144,7 +154,7 @@ class BinaryFixedString extends BinaryType {
      * @param {Number} offset
      */
     readFromBuffer(buffer, offset) {
-        return buffer.toString("ASCII", offset, this._length);
+        return BinaryFixedString.trimTerminatingNullBytes(buffer.toString("ascii", offset, this._length));
     }
 
     /***
@@ -153,14 +163,13 @@ class BinaryFixedString extends BinaryType {
      * @param {Number} offset
      */
     writeToBuffer(buffer, value, offset) {
-        return buffer.write(value, offset, this._length, "ASCII");
+        return buffer.write(value, offset, this._length, "ascii");
     }
 
     /**
-     * @param {String} value
      * @returns {Number}
      */
-    getByteSize(value) {
+    getByteSize() {
         return this._length;
     }
 }

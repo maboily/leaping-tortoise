@@ -48,7 +48,7 @@ class BasePacket {
  */
 BasePacket.BaseStructure = [];
 
-class GamePacket {
+class GamePacket extends BasePacket {
     /**
      * @returns {Number}
      */
@@ -78,6 +78,8 @@ class GamePacket {
     }
 
     constructor() {
+        super();
+
         this._length = 0;
         this._type = 0;
     }
@@ -109,19 +111,19 @@ class PacketAssembler {
     }
 
     /**
-     * @param {BasePacket} packet
+     * @param {GamePacket} packet
      */
     serializeToBuffer(packet) {
-        let buffers = [];
+        let buffer = Buffer.alloc(packet.length);
+        let offset = 0;
 
         for (const field of packet.constructor.BaseStructure) {
             const fieldValue = packet[field.name];
-            const tmpBuffer = new Buffer(field.fieldType.getByteSize(fieldValue));
-            field.fieldType.writeToBuffer(tmpBuffer, fieldValue, 0);
-            buffers.push(tmpBuffer);
+            field.fieldType.writeToBuffer(buffer, fieldValue, offset);
+            offset += field.fieldType.getByteSize();
         }
 
-        return Buffer.concat(buffers);
+        return buffer;
     }
 
     /**
@@ -131,8 +133,7 @@ class PacketAssembler {
         let actualLength = 0;
 
         for (const field of packet.constructor.BaseStructure) {
-            const fieldValue = packet[field.name];
-            actualLength += field.fieldType.getByteSize(fieldValue);
+            actualLength += field.fieldType.getByteSize();
         }
 
         packet.length = actualLength;
