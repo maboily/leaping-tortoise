@@ -6,8 +6,8 @@
     "nodemon": "^1.11.0"
   },
   "dependencies": {
-    "logging": "../shared/logging",
+    "amqp-protocol": "../shared/amqp-protocol",
     "network-protocol": "../shared/network-protocol",
-    "amqp-protocol": "../shared/amqp-protocol"
+    "winston": "^2.3.1"
   }
 }

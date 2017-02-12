@@ -1,16 +1,26 @@
-var LoggerModule = require('logging');
+const
+    AMQPConnectivity = require('amqp-protocol').Connectivity;
 
 // Setup logger
-/** @type {Logger} */
-global.logger = new LoggerModule.Logger(
-    [new LoggerModule.Appenders.ConsoleAppender()],
-    LoggerModule.VerboseFlagsValues.LogDebug |
-    LoggerModule.VerboseFlagsValues.LogErrors |
-    LoggerModule.VerboseFlagsValues.LogVerbose |
-    LoggerModule.VerboseFlagsValues.LogWarnings |
-    LoggerModule.VerboseFlagsValues.LogInfo,
-    "[%v] %s"
-);
+/** @type {winston} */
+global.logger = require('winston');
+logger.level = 'debug';
 
-logger.writeInfo("Login server is starting...");
+// Startup AMQP
+const baseAMQPConnection = new AMQPConnectivity.AMQPConnection('amqp://rabbitmq');
+const baseAMQPChannel = new AMQPConnectivity.AMQPChannel(baseAMQPConnection);
+const baseAMQPQueue = new AMQPConnectivity.AMQPQueue('nodes-status', baseAMQPChannel);
+baseAMQPConnection.connect().then(() => {
+    logger.verbose("Connected to AMQP");
+
+    return baseAMQPChannel.initialize();
+}).then(() => {
+    logger.verbose("Login server is starting...");
+}).fail((error) => {
+    logger.error("Failed to initialize AMQP");
+    logger.error(error);
+});
+
+
+
 
