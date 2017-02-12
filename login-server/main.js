@@ -1,9 +1,9 @@
-var LoggerModule = require('logging/logger');
+var LoggerModule = require('logging');
 
 // Setup logger
 /** @type {Logger} */
 global.logger = new LoggerModule.Logger(
-    [new LoggerModule.ConsoleAppender()],
+    [new LoggerModule.Appenders.ConsoleAppender()],
     LoggerModule.VerboseFlagsValues.LogDebug |
     LoggerModule.VerboseFlagsValues.LogErrors |
     LoggerModule.VerboseFlagsValues.LogVerbose |

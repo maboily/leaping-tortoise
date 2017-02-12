@@ -1,3 +1,5 @@
+const VerboseFlagsValues = require('./verbose-flags-values');
+
 class Logger {
     /**
      * @returns {String}
@@ -113,94 +115,4 @@ class Logger {
     }
 }
 
-class LoggerAppender {
-    /**
-     * @param {String} entry
-     */
-    verbose(entry) {
-        throw "LoggerAppender verbose not implemented.";
-    }
-
-    /**
-     * @param {String} entry
-     */
-    error(entry) {
-        throw "LoggerAppender error not implemented.";
-    }
-
-    /**
-     * @param {String} entry
-     */
-    warning(entry) {
-        throw "LoggerAppender warning not implemented.";
-    }
-
-    /**
-     * @param {*} entry
-     */
-    debug(entry) {
-        throw "LoggerAppender debug not implemented.";
-    }
-
-    /**
-     * @param {*} entry
-     */
-    info(entry) {
-        throw "LoggerAppender info not implemented.";
-    }
-}
-
-class ConsoleAppender extends LoggerAppender {
-    constructor() {
-        super();
-    }
-
-    /**
-     * @param {String} entry
-     */
-    verbose(entry) {
-        console.log(entry);
-    }
-
-    /**
-     * @param {String} entry
-     */
-    error(entry) {
-        console.error(entry);
-    }
-
-    /**
-     * @param {String} entry
-     */
-    warning(entry) {
-        console.warn(entry);
-    }
-
-    /**
-     * @param {*} entry
-     */
-    debug(entry) {
-        console.log(entry);
-    }
-
-    /**
-     * @param {*} entry
-     */
-    info(entry) {
-        console.log(entry);
-    }
-}
-
-const VerboseFlagsValues = {
-    LogErrors: 1,
-    LogWarnings: 2,
-    LogVerbose: 4,
-    LogDebug: 8,
-    LogInfo: 16
-};
-
-module.exports = {
-    Logger: Logger,
-    ConsoleAppender: ConsoleAppender,
-    VerboseFlagsValues: VerboseFlagsValues
-};
+module.exports = Logger;

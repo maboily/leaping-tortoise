@@ -1,11 +1,13 @@
 const
-    LoggerModule = require('logging/logger'),
+    LoggerModule = require('logging'),
     AMQPConnectivity = require('amqp-protocol').Connectivity;
+
+console.log(LoggerModule);
 
 // Setup local logger
 /** @type {Logger} */
 global.logger = new LoggerModule.Logger(
-    [new LoggerModule.ConsoleAppender()],
+    [new LoggerModule.Appenders.ConsoleAppender()],
     LoggerModule.VerboseFlagsValues.LogDebug |
     LoggerModule.VerboseFlagsValues.LogErrors |
     LoggerModule.VerboseFlagsValues.LogVerbose |
