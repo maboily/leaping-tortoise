@@ -1,5 +1,7 @@
 const
-    AMQPConnectivity = require('amqp-protocol').Connectivity;
+    AMQPConnectivity = require('amqp-protocol').Connectivity,
+    TCPServer = require('network-protocol').TCPServer.TCPServer,
+    LoginClientHandler = require('./network/login-client-handler');
 
 // Setup logger
 /** @type {winston} */
@@ -16,11 +18,15 @@ baseAMQPConnection.connect().then(() => {
     return baseAMQPChannel.initialize();
 }).then(() => {
     logger.verbose("Login server is starting...");
+
+    // Startup TCPServer
+    const loginClientHandler = new LoginClientHandler();
+    const loginServer = new TCPServer(5816, loginClientHandler);
+    loginServer.listen();
+    logger.info("Listening on port " + loginServer.listeningPort);
+
 }).fail((error) => {
     logger.error("Failed to initialize AMQP");
     logger.error(error);
 });
-
-
-
 

@@ -1,7 +1,7 @@
 const
     PacketField = require('./packet-field'),
     BasePacket = require('./base-packet'),
-    BinaryTypes = require('packets-binary-types');
+    BinaryTypes = require('./packets-binary-types');
 
 class LengthTypedPacket extends BasePacket {
     /**

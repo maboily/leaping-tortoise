@@ -5,6 +5,8 @@ services:
     image: node:slim
     working_dir: /usr/src/app/login-server
     command: npm run default
+    ports:
+      - "5816:5816"
     volumes:
       - ./login-server:/usr/src/app/login-server
       - ./shared:/usr/src/app/shared

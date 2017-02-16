@@ -1,3 +1,4 @@
 module.exports = {
-    Packets: require('./packets')
+    Packets: require('./packets'),
+    TCPServer: require('./tcpserver')
 };
