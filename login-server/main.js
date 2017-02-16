@@ -21,7 +21,7 @@ baseAMQPConnection.connect().then(() => {
 
     // Startup TCPServer
     const loginClientHandler = new LoginClientHandler();
-    const loginServer = new TCPServer(5816, loginClientHandler);
+    const loginServer = new TCPServer(9958, loginClientHandler);
     loginServer.listen();
     logger.info("Listening on port " + loginServer.listeningPort);
 

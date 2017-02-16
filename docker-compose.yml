@@ -6,7 +6,7 @@ services:
     working_dir: /usr/src/app/login-server
     command: npm run default
     ports:
-      - "5816:5816"
+      - "9958:9958"
     volumes:
       - ./login-server:/usr/src/app/login-server
       - ./shared:/usr/src/app/shared

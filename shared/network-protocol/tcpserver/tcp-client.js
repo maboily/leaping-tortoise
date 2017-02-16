@@ -37,6 +37,13 @@ class TCPClient {
     /**
      * @param {Buffer} bytes
      */
+    receiveBytes(bytes) {
+        this._handler.processReadBytes(this, bytes);
+    }
+
+    /**
+     * @param {Buffer} bytes
+     */
     sendBytes(bytes) {
         this._handler.processBeforeSendBytes(this, bytes);
         this._socket.write(bytes);
@@ -47,15 +54,8 @@ class TCPClient {
      * @private
      */
     _bindSocketEvents() {
-        this._socket.on('data', this._receiveBytes.bind(this));
+        this._socket.on('data', this.receiveBytes.bind(this));
         this._socket.on('close', this._handler.processClientDisconnection.bind(this._handler, this));
-    }
-
-    /**
-     * @private
-     */
-    _receiveBytes(bytes) {
-        this._handler.processReadBytes(this, bytes);
     }
 }
 

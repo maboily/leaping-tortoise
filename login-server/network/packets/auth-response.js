@@ -1,6 +1,6 @@
-const GamePacket = require('network-protocol/base-packet').LengthTypedPacket,
-    PacketField = require('network-protocol/base-packet').PacketField,
-    BinaryTypes = require('network-protocol/binary-types'),
+const LengthTypedPacket = require('network-protocol').Packets.LengthTypedPacket,
+    PacketField = require('network-protocol').Packets.PacketField,
+    PacketsBinaryTypes = require('network-protocol').Packets.PacketsBinaryTypes,
     PacketTypes = require('./login-packet-types');
 
 class AuthResponsePacket extends LengthTypedPacket {
@@ -75,11 +75,11 @@ class AuthResponsePacket extends LengthTypedPacket {
 /**
  * @type [PacketField]
  */
-AuthResponsePacket.BaseStructure = [...GamePacket.BaseStructure, ...[
-    new PacketField('accountId', new BinaryTypes.BinaryUInt32()),
-    new PacketField('unknownData', new BinaryTypes.BinaryUInt32()),
-    new PacketField('serverIp', new BinaryTypes.BinaryFixedString(16)),
-    new PacketField('serverPort', new BinaryTypes.BinaryUInt32())
+AuthResponsePacket.BaseStructure = [...LengthTypedPacket.BaseStructure, ...[
+    new PacketField('accountId', new PacketsBinaryTypes.BinaryUInt32()),
+    new PacketField('unknownData', new PacketsBinaryTypes.BinaryUInt32()),
+    new PacketField('serverIp', new PacketsBinaryTypes.BinaryFixedString(16)),
+    new PacketField('serverPort', new PacketsBinaryTypes.BinaryUInt32())
 ]];
 
 module.exports = AuthResponsePacket;

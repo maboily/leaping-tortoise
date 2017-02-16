@@ -72,10 +72,10 @@ class AuthCryptographer {
      */
     decrypt(buffer) {
         for (let b = 0; b < buffer.length; b++) {
-            buffer.writeInt8(buffer.readInt8(b) ^ 0xAB);
-            buffer.writeInt8((buffer.readInt8(b) << 4) | (buffer.readInt8(b) >> 4));
-            buffer.writeInt8(this._key2[this._inCounter >> 8] ^ buffer.readInt8(b));
-            buffer.writeInt8(this._key1[this._inCounter & 0xFF] ^ buffer.readInt8(b));
+            buffer.writeUInt8(buffer.readUInt8(b) ^ 0xAB, b);
+            buffer.writeUInt8(((buffer.readUInt8(b) << 4) | (buffer.readUInt8(b) >> 4)) & 0xFF, b);
+            buffer.writeUInt8(this._key2[this._inCounter >> 8] ^ buffer.readUInt8(b), b);
+            buffer.writeUInt8(this._key1[this._inCounter & 0xFF] ^ buffer.readUInt8(b), b);
 
             this._inCounter = (this._inCounter + 1) & 0xFFFF;
         }
@@ -86,10 +86,10 @@ class AuthCryptographer {
      */
     encrypt(buffer) {
         for (let b = 0; b < buffer.length; b++) {
-            buffer.writeInt8(buffer.readInt8(b) ^ 0xAB);
-            buffer.writeInt8((buffer.readInt8(b) << 4) | (buffer.readInt8(b) >> 4));
-            buffer.writeInt8(this._key2[this._outCounter >> 8] ^ buffer.readInt8(b));
-            buffer.writeInt8(this._key1[this._outCounter & 0xFF] ^ buffer.readInt8(b));
+            buffer.writeUInt8(buffer.readUInt8(b) ^ 0xAB, b);
+            buffer.writeUInt8(((buffer.readUInt8(b) << 4) | (buffer.readUInt8(b) >> 4)) & 0xFF, b);
+            buffer.writeUInt8(this._key2[this._outCounter >> 8] ^ buffer.readUInt8(b), b);
+            buffer.writeUInt8(this._key1[this._outCounter & 0xFF] ^ buffer.readUInt8(b), b);
 
             this._outCounter = (this._outCounter + 1) & 0xFFFF;
         }

@@ -1,6 +1,6 @@
-const GamePacket = require('network-protocol/base-packet').LengthTypedPacket,
-    PacketField = require('network-protocol/base-packet').PacketField,
-    BinaryTypes = require('network-protocol/binary-types'),
+const LengthTypedPacket = require('network-protocol').Packets.LengthTypedPacket,
+    PacketField = require('network-protocol').Packets.PacketField,
+    PacketsBinaryTypes = require('network-protocol').Packets.PacketsBinaryTypes,
     PacketTypes = require('./login-packet-types');
 
 class PasswordSeedPacket extends LengthTypedPacket {
@@ -63,10 +63,10 @@ class PasswordSeedPacket extends LengthTypedPacket {
 /**
  * @type [PacketField]
  */
-PasswordSeedPacket.BaseStructure = [...GamePacket.BaseStructure, ...[
-    new PacketField('size', new BinaryTypes.BinaryUInt16()),
-    new PacketField('type', new BinaryTypes.BinaryUInt16()),
-    new PacketField('seed', new BinaryTypes.BinaryUInt32())
+PasswordSeedPacket.BaseStructure = [...LengthTypedPacket.BaseStructure, ...[
+    new PacketField('size', new PacketsBinaryTypes.BinaryUInt16()),
+    new PacketField('type', new PacketsBinaryTypes.BinaryUInt16()),
+    new PacketField('seed', new PacketsBinaryTypes.BinaryUInt32())
 ]];
 
 module.exports = PasswordSeedPacket;

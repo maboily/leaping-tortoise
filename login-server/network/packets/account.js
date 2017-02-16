@@ -1,6 +1,6 @@
-const LengthTypedPacket = require('network-protocol/base-packet').LengthTypedPacket,
-    PacketField = require('network-protocol/base-packet').PacketField,
-    BinaryTypes = require('network-protocol/binary-types'),
+const LengthTypedPacket = require('network-protocol').Packets.LengthTypedPacket,
+    PacketField = require('network-protocol').Packets.PacketField,
+    PacketsBinaryTypes = require('network-protocol').Packets.PacketsBinaryTypes,
     PacketTypes = require('./login-packet-types');
 
 class AccountPacket extends LengthTypedPacket {
@@ -64,9 +64,9 @@ class AccountPacket extends LengthTypedPacket {
  * @type [PacketField]
  */
 AccountPacket.BaseStructure = [...LengthTypedPacket.BaseStructure, ...[
-    new PacketField('account', new BinaryTypes.BinaryFixedString(16)),
-    new PacketField('encryptedPassword', new BinaryTypes.BinaryFixedString(16)),
-    new PacketField('server', new BinaryTypes.BinaryFixedString(16))
+    new PacketField('account', new PacketsBinaryTypes.BinaryFixedString(16)),
+    new PacketField('encryptedPassword', new PacketsBinaryTypes.BinaryFixedString(16)),
+    new PacketField('server', new PacketsBinaryTypes.BinaryFixedString(16))
 ]];
 
 module.exports = AccountPacket;

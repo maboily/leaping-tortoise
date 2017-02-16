@@ -1,6 +1,6 @@
-const GamePacket = require('network-protocol/base-packet').LengthTypedPacket,
-    PacketField = require('network-protocol/base-packet').PacketField,
-    BinaryTypes = require('network-protocol/binary-types'),
+const LengthTypedPacket = require('network-protocol').Packets.LengthTypedPacket,
+    PacketField = require('network-protocol').Packets.PacketField,
+    PacketsBinaryTypes = require('network-protocol').Packets.PacketsBinaryTypes,
     PacketTypes = require('./login-packet-types');
 
 class MacAddressPacket extends LengthTypedPacket {
@@ -45,9 +45,9 @@ class MacAddressPacket extends LengthTypedPacket {
 /**
  * @type [PacketField]
  */
-MacAddressPacket.BaseStructure = [...GamePacket.BaseStructure, ...[
-    new PacketField('accountId', new BinaryTypes.BinaryUInt32()),
-    new PacketField('macAddress', new BinaryTypes.BinaryFixedString(12)),
+MacAddressPacket.BaseStructure = [...LengthTypedPacket.BaseStructure, ...[
+    new PacketField('accountId', new PacketsBinaryTypes.BinaryUInt32()),
+    new PacketField('macAddress', new PacketsBinaryTypes.BinaryFixedString(12)),
 ]];
 
 module.exports = MacAddressPacket;
